@@ -22,6 +22,8 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        echo "=================================================="
+        echo "STAGE: Checkout"
         echo "Checking out source for ${env.APP_NAME}"
         checkout scm
       }
@@ -29,6 +31,8 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
+        echo "=================================================="
+        echo "STAGE: Install dependencies"
         sh '''
           python3 -m pip install --user -r requirements.txt
         '''
@@ -37,6 +41,8 @@ pipeline {
 
     stage('Test') {
       steps {
+        echo "=================================================="
+        echo "STAGE: Test"
         sh '''
           python3 -m pytest -q
         '''
@@ -48,6 +54,8 @@ pipeline {
         expression { return params.DEPLOY_ENABLED }
       }
       steps {
+        echo "=================================================="
+        echo "STAGE: Deploy"
         echo "Deploying ${env.APP_NAME} to ${params.ENVIRONMENT}"
         sh "chmod +x ${env.DEPLOY_SCRIPT} && ./${env.DEPLOY_SCRIPT} '${params.ENVIRONMENT}'"
       }
